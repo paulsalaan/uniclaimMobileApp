@@ -1,9 +1,17 @@
+import type { RootStackParamList } from "@/types/navigation";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
 import "../global.css";
 
+// screens
+import App from "./App";
+import Index from "./tabs";
+import Login from "./tabs/Login";
+import Register from "./tabs/Register";
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
 export default function RootLayout() {
-  // custom fonts
   const [loaded] = useFonts({
     AlbertSansLight: require("../assets/fonts/AlbertSans-Light.ttf"),
     AlbertSansRegular: require("../assets/fonts/AlbertSans-Regular.ttf"),
@@ -24,14 +32,17 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
 
-  if (!loaded) {
-    // async font loading only occurs in development.
-    return null;
-  }
+  if (!loaded) return null;
 
   return (
-    <Stack initialRouteName="index" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-    </Stack>
+    <Stack.Navigator
+      initialRouteName="App"
+      screenOptions={{ headerShown: false, animation: "fade" }}
+    >
+      <Stack.Screen name="Index" component={Index} />
+      <Stack.Screen name="App" component={App} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register} />
+    </Stack.Navigator>
   );
 }

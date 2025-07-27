@@ -6,15 +6,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#F2F2F2",
+        background: "#FBFDFC",
+        navyblue: "#0A193A",
         brand: "#12C3B4",
         muted: "#EFEFEF",
       },
       fontFamily: {
         albert: ["AlbertSansRegular"],
         "albert-light": ["AlbertSansLight"],
-        "albert-semibold": ["AlbertSansLight"],
-        "albert-bold": ["AlbertSansLight"],
+        "albert-semibold": ["AlbertSansSemiBold"],
+        "albert-bold": ["AlbertSansBold"],
 
         inter: ["InterRegular"],
         "inter-light": ["InterLight"],
