@@ -37,7 +37,7 @@ export default function Index() {
               Welcome to <Text className="text-brand">Uni</Text>Claim
             </Text>
             <Text className="font-inter text-base text-center mt-1 text-zinc-700">
-              Easily Report and Find Items at{"\n"}USTP-CDO with UniClaim app
+              Easily Report and Find Items at{"\n"}USTP-CDO with UniClaim
             </Text>
           </View>
         </View>
