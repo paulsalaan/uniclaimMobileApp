@@ -103,7 +103,7 @@ export default function OnBoarding() {
         {/* Progress Bar + Button */}
         <View className="px-6 pb-6">
           <Text className="text-center font-manrope text-zinc-400">
-            Swipe to proceed
+            Swipe right to proceed
           </Text>
           <View className="flex-row justify-center gap-2 mt-4">
             {slides.map((_, i) => (
