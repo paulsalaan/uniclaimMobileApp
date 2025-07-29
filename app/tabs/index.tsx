@@ -11,7 +11,7 @@ export default function Index() {
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <ScreenWrapper>
+    <ScreenWrapper statusBarBg="#ffffff" statusBarStyle="dark-content">
       <SafeAreaView className="flex-1 flex-col items-center justify-between p-5">
         {/* logo with text section */}
         <View className="flex items-center justify-center">

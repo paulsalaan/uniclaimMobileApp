@@ -1,18 +1,25 @@
+import ScreenWrapper from "@/components/ScreenWrapper";
+import { NavigationContainer } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View } from "react-native";
+import RootLayout from "../app/_layout"; // or wherever your navigator is
 import SplashScreen from "../components/SplashScreen";
-import Index from "./tabs/index";
 
 export default function App() {
-  const [showSplash, setShowSplash] = useState(true);
+  const [isSplashVisible, setIsSplashVisible] = useState(true);
+
+  const handleSplashEnd = () => {
+    setIsSplashVisible(false);
+  };
 
   return (
-    <View className="flex-1">
-      {showSplash ? (
-        <SplashScreen onAnimationEnd={() => setShowSplash(false)} />
+    <ScreenWrapper>
+      {isSplashVisible ? (
+        <SplashScreen onAnimationEnd={handleSplashEnd} />
       ) : (
-        <Index />
+        <NavigationContainer>
+          <RootLayout /> {/* Your main stack or tab navigator */}
+        </NavigationContainer>
       )}
-    </View>
+    </ScreenWrapper>
   );
 }
