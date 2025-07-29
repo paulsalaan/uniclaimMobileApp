@@ -1,27 +1,14 @@
 // app/RootLayout.tsx
-import type { RootStackParamList } from "@/types/navigation";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import React, { useEffect, useState } from "react";
 import SplashScreen from "../components/SplashScreen";
 import "../global.css";
 
 // screens
-import Index from "./tabs/index";
-import Login from "./tabs/Login";
-import OnBoarding from "./tabs/OnBoarding";
-import Register from "./tabs/Register";
+import Navigation from "@/navigation/Navigation";
 
 // components
 import ScreenWrapper from "../components/ScreenWrapper";
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
-
-const withScreenWrapper = (Component: React.ComponentType) => () => (
-  <ScreenWrapper statusBarStyle="dark-content" statusBarBg="#fff">
-    <Component />
-  </ScreenWrapper>
-);
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -63,18 +50,5 @@ export default function RootLayout() {
       </ScreenWrapper>
     );
   }
-  return (
-    <Stack.Navigator
-      initialRouteName="OnBoarding"
-      screenOptions={{ headerShown: false, animation: "fade" }}
-    >
-      <Stack.Screen
-        name="OnBoarding"
-        component={withScreenWrapper(OnBoarding)}
-      />
-      <Stack.Screen name="Index" component={withScreenWrapper(Index)} />
-      <Stack.Screen name="Login" component={withScreenWrapper(Login)} />
-      <Stack.Screen name="Register" component={withScreenWrapper(Register)} />
-    </Stack.Navigator>
-  );
+  return <Navigation />;
 }
