@@ -33,6 +33,9 @@ export default function RootLayout() {
 
   const [showSplash, setShowSplash] = useState(true);
 
+  const [hasSeenOnBoarding, setHasSeenOnBoarding] = useState(false);
+  const [hasPassedIndex, setHasPassedIndex] = useState(false);
+
   // Delay splash screen after fonts are loaded
   useEffect(() => {
     if (fontsLoaded) {
@@ -50,5 +53,12 @@ export default function RootLayout() {
       </ScreenWrapper>
     );
   }
-  return <Navigation />;
+  return (
+    <Navigation
+      hasSeenOnBoarding={hasSeenOnBoarding}
+      setHasSeenOnBoarding={setHasSeenOnBoarding}
+      hasPassedIndex={hasPassedIndex}
+      setHasPassedIndex={setHasPassedIndex}
+    />
+  );
 }

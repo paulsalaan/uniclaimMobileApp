@@ -6,7 +6,9 @@ import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Index() {
+// test-only
+
+export default function Index({ onContinue }: { onContinue: () => void }) {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -46,7 +48,7 @@ export default function Index() {
         <View className="w-full">
           <TouchableOpacity
             className="bg-brand flex items-center justify-center py-4 rounded-xl mb-3"
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("RootBottomTabs")}
           >
             <Text className="font-manrope-medium text-white text-lg">
               Login
@@ -57,7 +59,7 @@ export default function Index() {
             onPress={() => navigation.navigate("Register")}
           >
             <Text className="font-manrope-medium text-brand text-lg">
-              Create an account
+              Register here
             </Text>
           </TouchableOpacity>
         </View>

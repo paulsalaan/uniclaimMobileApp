@@ -39,7 +39,7 @@ const slides = [
   },
 ];
 
-export default function OnBoarding() {
+export default function OnBoarding({ onFinish }: { onFinish: () => void }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -54,9 +54,8 @@ export default function OnBoarding() {
   //   };
 
   const onSkip = () => {
-    navigation.replace("Index");
+    navigation.replace("Index"); // <- this actually navigates
   };
-
   return (
     <ScreenWrapper statusBarBg="#ffffff" statusBarStyle="dark-content">
       <SafeAreaView className="flex-1">

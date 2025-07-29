@@ -4,4 +4,13 @@ export type RootStackParamList = {
   App: undefined;
   Login: undefined;
   Register: undefined;
+
+  // test-only
+  Home: undefined;
+  Report: undefined;
+  Profile: undefined;
+  MyTicket: undefined;
+  Message: undefined;
+  RootBottomTabs: undefined;
+  InitialRouter: undefined;
 };
