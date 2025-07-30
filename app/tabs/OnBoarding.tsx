@@ -12,10 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 
@@ -47,7 +44,6 @@ export default function OnBoarding({ onFinish }: { onFinish: () => void }) {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const flatListRef = useRef<FlatList>(null);
-  const insets = useSafeAreaInsets();
 
   const onSkip = () => {
     navigation.replace("Index");
@@ -55,10 +51,13 @@ export default function OnBoarding({ onFinish }: { onFinish: () => void }) {
 
   return (
     <ScreenWrapper statusBarBg="#ffffff" statusBarStyle="dark-content">
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <SafeAreaView className="flex-1 bg-white">
         {/* Skip Button */}
-        <View className="w-full items-end px-6 pt-5">
-          <TouchableOpacity onPress={onSkip} className="flex-row items-center">
+        <View className="w-full items-end px-6">
+          <TouchableOpacity
+            onPress={onSkip}
+            className="flex-row items-center mt-4"
+          >
             <Text className="text-navyblue font-manrope-medium font-semibold text-base mr-2">
               {currentIndex === slides.length - 1
                 ? "Start Using UniClaim"
@@ -69,7 +68,7 @@ export default function OnBoarding({ onFinish }: { onFinish: () => void }) {
         </View>
 
         {/* Slide Content */}
-        <View style={{ flex: 1 }}>
+        <View className="flex-1">
           <FlatList
             ref={flatListRef}
             data={slides}
@@ -99,13 +98,7 @@ export default function OnBoarding({ onFinish }: { onFinish: () => void }) {
         </View>
 
         {/* Bottom Progress and Info */}
-        <View
-          className="px-6 pt-1"
-          style={{
-            paddingBottom: Math.max(insets.bottom, 5), // ✅ Prevent layout jump
-            backgroundColor: "#fff",
-          }}
-        >
+        <View className="px-6 pt-1 pb-2 bg-white">
           <Text className="text-center font-manrope text-zinc-400">
             Swipe right to proceed
           </Text>

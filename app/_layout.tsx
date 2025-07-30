@@ -48,7 +48,7 @@ export default function RootLayout() {
 
   if (!fontsLoaded || showSplash) {
     return (
-      <ScreenWrapper statusBarStyle="dark-content" statusBarBg="#fff">
+      <ScreenWrapper statusBarStyle="dark-content" statusBarBg="#FBFDFC">
         <SplashScreen onAnimationEnd={() => {}} />
       </ScreenWrapper>
     );

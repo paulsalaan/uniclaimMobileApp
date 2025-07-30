@@ -10,7 +10,7 @@ type ScreenWrapperProps = {
 export default function ScreenWrapper({
   children,
   statusBarStyle = "dark-content",
-  statusBarBg = "#f9fafb",
+  statusBarBg = "#FBFDFC",
 }: ScreenWrapperProps) {
   // useSafeAreaInsets();
 
