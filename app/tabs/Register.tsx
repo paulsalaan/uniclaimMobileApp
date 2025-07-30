@@ -3,14 +3,15 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Pressable,
-  ImageBackground,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Eye, EyeOff } from "lucide-react-native";
-import { LinearGradient } from "expo-linear-gradient";
 
 export default function RegisterScreen() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -18,188 +19,140 @@ export default function RegisterScreen() {
   const navigation = useNavigation();
 
   return (
-    <ImageBackground
-      source={require("../../assets/images/uniclaimlogo.png")}
-      style={styles.background}
-      imageStyle={styles.logoImage}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      className="flex-1 bg-white"
     >
-      <LinearGradient
-        colors={["#ffffffee", "#ffffffcc"]}
-        style={styles.overlay}
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+        className="px-6 pt-16 pb-10"
       >
-        <View style={styles.container}>
-          <Text style={styles.title}>Create an account</Text>
-          <Text style={styles.subtitle}>
-            Start your journey here at UniClaim
+        {/* Logo and Heading */}
+        <View className="items-center mb-10">
+          <Image
+            source={require("../../assets/images/uniclaimlogo.png")}
+            className="w-20 h-20 mb-3"
+            resizeMode="contain"
+          />
+          <Text className="text-2xl font-bold text-gray-800">
+            Create an account
           </Text>
-
-          <View style={styles.form}>
-            <View>
-              <Text style={styles.label}>First Name</Text>
-              <TextInput style={styles.input} placeholder="Enter first name" />
-            </View>
-
-            <View>
-              <Text style={styles.label}>Last Name</Text>
-              <TextInput style={styles.input} placeholder="Enter last name" />
-            </View>
-
-            <View>
-              <Text style={styles.label}>Email</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="abcde@gmail.com"
-                keyboardType="email-address"
-              />
-            </View>
-
-            <View>
-              <Text style={styles.label}>Password</Text>
-              <View style={styles.inputWrapper}>
-                <TextInput
-                  style={styles.inputField}
-                  placeholder="Enter your password"
-                  secureTextEntry={!passwordVisible}
-                />
-                <Pressable
-                  onPress={() => setPasswordVisible(!passwordVisible)}
-                  style={styles.eyeIcon}
-                >
-                  {passwordVisible ? (
-                    <Eye size={20} color="#555" />
-                  ) : (
-                    <EyeOff size={20} color="#555" />
-                  )}
-                </Pressable>
-              </View>
-            </View>
-
-            <View>
-              <Text style={styles.label}>Confirm Password</Text>
-              <View style={styles.inputWrapper}>
-                <TextInput
-                  style={styles.inputField}
-                  placeholder="Re-enter your password"
-                  secureTextEntry={!confirmPasswordVisible}
-                />
-                <Pressable
-                  onPress={() =>
-                    setConfirmPasswordVisible(!confirmPasswordVisible)
-                  }
-                  style={styles.eyeIcon}
-                >
-                  {confirmPasswordVisible ? (
-                    <Eye size={20} color="#555" />
-                  ) : (
-                    <EyeOff size={20} color="#555" />
-                  )}
-                </Pressable>
-              </View>
-            </View>
-
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Login")}>
-              <Text style={styles.buttonText}>Create an account</Text>
-            </TouchableOpacity>
-
-            <Pressable onPress={() => navigation.navigate("Login")}>
-              <Text style={styles.loginText}>
-                Already have an account?{" "}
-                <Text style={styles.loginLink}>Login</Text>
-              </Text>
-            </Pressable>
-          </View>
+          <Text className="text-sm text-gray-600 mt-1 text-center">
+            Start your journey with UniClaim
+          </Text>
         </View>
-      </LinearGradient>
-    </ImageBackground>
+
+        {/* Form Fields */}
+        <View className="space-y-5">
+          {/* First Name */}
+          <View>
+            <Text className="text-sm font-medium text-gray-700 mb-1">
+              First Name
+            </Text>
+            <TextInput
+              className="bg-gray-100 rounded-lg px-4 py-3 text-sm text-gray-900"
+              placeholder="Enter first name"
+              placeholderTextColor="#999"
+            />
+          </View>
+
+          {/* Last Name */}
+          <View>
+            <Text className="text-sm font-medium text-gray-700 mb-1">
+              Last Name
+            </Text>
+            <TextInput
+              className="bg-gray-100 rounded-lg px-4 py-3 text-sm text-gray-900"
+              placeholder="Enter last name"
+              placeholderTextColor="#999"
+            />
+          </View>
+
+          {/* Email */}
+          <View>
+            <Text className="text-sm font-medium text-gray-700 mb-1">
+              Email
+            </Text>
+            <TextInput
+              className="bg-gray-100 rounded-lg px-4 py-3 text-sm text-gray-900"
+              placeholder="abcde@gmail.com"
+              keyboardType="email-address"
+              placeholderTextColor="#999"
+            />
+          </View>
+
+          {/* Password */}
+          <View>
+            <Text className="text-sm font-medium text-gray-700 mb-1">
+              Password
+            </Text>
+            <View className="flex-row items-center bg-gray-100 rounded-lg px-3">
+              <TextInput
+                className="flex-1 py-3 text-sm text-gray-900"
+                placeholder="Enter your password"
+                secureTextEntry={!passwordVisible}
+                placeholderTextColor="#999"
+              />
+              <Pressable
+                onPress={() => setPasswordVisible(!passwordVisible)}
+                className="p-2"
+              >
+                {passwordVisible ? (
+                  <Eye size={20} color="#555" />
+                ) : (
+                  <EyeOff size={20} color="#555" />
+                )}
+              </Pressable>
+            </View>
+          </View>
+
+          {/* Confirm Password */}
+          <View>
+            <Text className="text-sm font-medium text-gray-700 mb-1">
+              Confirm Password
+            </Text>
+            <View className="flex-row items-center bg-gray-100 rounded-lg px-3">
+              <TextInput
+                className="flex-1 py-3 text-sm text-gray-900"
+                placeholder="Re-enter your password"
+                secureTextEntry={!confirmPasswordVisible}
+                placeholderTextColor="#999"
+              />
+              <Pressable
+                onPress={() =>
+                  setConfirmPasswordVisible(!confirmPasswordVisible)
+                }
+                className="p-2"
+              >
+                {confirmPasswordVisible ? (
+                  <Eye size={20} color="#555" />
+                ) : (
+                  <EyeOff size={20} color="#555" />
+                )}
+              </Pressable>
+            </View>
+          </View>
+
+          {/* Submit Button */}
+          <TouchableOpacity
+            className="bg-teal-600 py-3 rounded-lg items-center mt-2"
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text className="text-white font-semibold text-base">
+              Create an account
+            </Text>
+          </TouchableOpacity>
+
+          {/* Login Link */}
+          <Pressable onPress={() => navigation.navigate("Login")}>
+            <Text className="text-center text-sm text-gray-700 mt-4">
+              Already have an account?{" "}
+              <Text className="text-teal-600 font-medium">Login</Text>
+            </Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: "cover",
-  },
-  logoImage: {
-    resizeMode: "contain",
-    opacity: 0.06,
-    alignSelf: "center",
-    top: "10%",
-    width: "90%",
-    height: "40%",
-  },
-  overlay: {
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 24,
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 6,
-    color: "#222",
-    textAlign: "center",
-  },
-  subtitle: {
-    fontSize: 14,
-    color: "#666",
-    textAlign: "center",
-    marginBottom: 28,
-  },
-  form: {
-    gap: 18,
-  },
-  label: {
-    fontSize: 13,
-    marginBottom: 6,
-    fontWeight: "500",
-    color: "#333",
-  },
-  input: {
-    backgroundColor: "#f2f2f2",
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-    fontSize: 14,
-  },
-  inputWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f2f2f2",
-    borderRadius: 8,
-    paddingHorizontal: 12,
-  },
-  inputField: {
-    flex: 1,
-    paddingVertical: 12,
-    fontSize: 14,
-  },
-  eyeIcon: {
-    padding: 8,
-  },
-  button: {
-    backgroundColor: "#00BFA6",
-    paddingVertical: 14,
-    borderRadius: 8,
-    alignItems: "center",
-    marginTop: 10,
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "600",
-    fontSize: 15,
-  },
-  loginText: {
-    textAlign: "center",
-    marginTop: 18,
-    fontSize: 13,
-    color: "#333",
-  },
-  loginLink: {
-    color: "#00BFA6",
-    fontWeight: "500",
-  },
-});
