@@ -1,6 +1,5 @@
 import React from "react";
-import { Platform, StatusBar, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { StatusBar, View } from "react-native";
 
 type ScreenWrapperProps = {
   children: React.ReactNode;
@@ -11,16 +10,15 @@ type ScreenWrapperProps = {
 export default function ScreenWrapper({
   children,
   statusBarStyle = "dark-content",
-  statusBarBg = "#fff",
+  statusBarBg = "#f9fafb",
 }: ScreenWrapperProps) {
-  const insets = useSafeAreaInsets();
+  // useSafeAreaInsets();
 
   return (
     <View
       style={{
         flex: 1,
         backgroundColor: statusBarBg,
-        paddingTop: Platform.OS === "android" ? insets.top : 0,
       }}
     >
       <StatusBar barStyle={statusBarStyle} backgroundColor={statusBarBg} />

@@ -1,21 +1,24 @@
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { LinearGradient } from "expo-linear-gradient";
+import { Eye, EyeOff } from "lucide-react-native";
+import { useState } from "react";
 import {
-  View,
+  ImageBackground,
+  Pressable,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  Pressable,
-  ImageBackground,
+  View,
 } from "react-native";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { Eye, EyeOff } from "lucide-react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import type { RootStackParamList } from "../../types/navigation";
 
 export default function RegisterScreen() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <ImageBackground
@@ -97,7 +100,10 @@ export default function RegisterScreen() {
               </View>
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate("Login")}
+            >
               <Text style={styles.buttonText}>Create an account</Text>
             </TouchableOpacity>
 

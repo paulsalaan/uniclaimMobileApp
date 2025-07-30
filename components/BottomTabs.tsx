@@ -2,6 +2,12 @@ import { Ionicons } from "@expo/vector-icons";
 import type { JSX } from "react";
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+
+// Your screen imports
 import HomeScreen from "../app/tabs/Home";
 import Message from "../app/tabs/Message";
 import ProfileScreen from "../app/tabs/Profile";
@@ -19,6 +25,9 @@ type TabConfig = {
 
 export default function CustomTabs() {
   const [currentTab, setCurrentTab] = useState("MyTickets");
+  const insets = useSafeAreaInsets();
+
+  const TAB_BAR_HEIGHT = 50;
 
   const tabs: TabConfig[] = [
     {
@@ -31,21 +40,21 @@ export default function CustomTabs() {
     {
       key: "Ticket",
       iconOutline: "ticket-outline",
-      iconFilled: "ticket", // ← only available in Ionicons v6+
+      iconFilled: "ticket",
       label: "My Ticket",
       component: MyTicket,
     },
     {
       key: "Messages",
       iconOutline: "chatbubble-outline",
-      iconFilled: "chatbubble", // ← filled version
+      iconFilled: "chatbubble",
       label: "Messages",
       component: Message,
     },
     {
       key: "CreateReport",
       iconOutline: "add",
-      iconFilled: "add", // same icon filled/outline
+      iconFilled: "add",
       label: "",
       component: CreateReportScreen,
       isCenter: true,
@@ -62,60 +71,76 @@ export default function CustomTabs() {
   const CurrentScreen =
     tabs.find((tab) => tab.key === currentTab)?.component ?? HomeScreen;
 
-  const tabButtons: JSX.Element[] = [];
-  for (let i = 0; i < tabs.length; i++) {
-    const tab = tabs[i];
-    const isActive = tab.key === currentTab;
-
-    if (tab.isCenter) {
-      tabButtons.push(
-        <TouchableOpacity
-          key={tab.key}
-          onPress={() => setCurrentTab(tab.key)}
-          className="bg-brand size-16 rounded-full -top-6 absolute left-1/2 -translate-x-1/2 items-center justify-center shadow-md shadow-brand/50 z-10"
-        >
-          <Ionicons name={tab.iconOutline} size={28} color="white" />
-        </TouchableOpacity>
-      );
-    } else {
-      // Add spacing between My Ticket and Messages
-      const marginClass =
-        tab.key === "Ticket" ? "mr-7" : tab.key === "Messages" ? "ml-7" : "";
-
-      tabButtons.push(
-        <TouchableOpacity
-          key={tab.key}
-          onPress={() => setCurrentTab(tab.key)}
-          className={`flex items-center justify-center ${marginClass}`}
-        >
-          <Ionicons
-            name={isActive ? tab.iconFilled : tab.iconOutline}
-            size={22}
-            color={isActive ? "#000000" : "#71717a"}
-          />
-          <Text
-            className={`text-xs font-manrope mt-2 ${
-              isActive ? "text-black" : "text-zinc-500"
-            }`}
-          >
-            {tab.label}
-          </Text>
-        </TouchableOpacity>
-      );
-    }
-  }
-
   return (
-    <View className="flex-1">
-      {/* Screen */}
+    <SafeAreaView className="flex-1 bg-white">
+      {/* Main Content */}
       <View className="flex-1">
         <CurrentScreen />
       </View>
 
-      {/* Custom Bottom Tab Bar */}
-      <View className="flex-row items-center justify-around h-[80px] bg-white">
-        {tabButtons}
+      {/* Bottom Tab Bar */}
+      <View className="relative bg-white py-2">
+        {/* Center Floating Button */}
+        <View
+          style={{
+            top: -(TAB_BAR_HEIGHT / 3),
+            left: "50%",
+            transform: [{ translateX: -32 }], // half of button size (64px)
+            position: "absolute",
+            zIndex: 50,
+            elevation: 6,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => setCurrentTab("CreateReport")}
+            className="bg-brand size-16 rounded-full items-center justify-center shadow-md shadow-brand/50"
+          >
+            <Ionicons name="add" size={28} color="white" />
+          </TouchableOpacity>
+        </View>
+
+        {/* Tab Buttons */}
+        <View
+          style={{
+            height: TAB_BAR_HEIGHT,
+            paddingBottom: 0, // prevent bottom safe area from pushing your icons
+          }}
+          className="flex-row items-center justify-around pt-5"
+        >
+          {tabs
+            .filter((tab) => !tab.isCenter)
+            .map((tab) => {
+              const isActive = currentTab === tab.key;
+              const marginClass =
+                tab.key === "Ticket"
+                  ? "mr-7"
+                  : tab.key === "Messages"
+                    ? "ml-7"
+                    : "";
+
+              return (
+                <TouchableOpacity
+                  key={tab.key}
+                  onPress={() => setCurrentTab(tab.key)}
+                  className={`items-center justify-center ${marginClass} flex flex-col space-y-1`}
+                >
+                  <Ionicons
+                    name={isActive ? tab.iconFilled : tab.iconOutline}
+                    size={22}
+                    color={isActive ? "#000" : "#71717a"}
+                  />
+                  <Text
+                    className={`text-xs font-manrope mt-1.5 ${
+                      isActive ? "text-black" : "text-zinc-500"
+                    }`}
+                  >
+                    {tab.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

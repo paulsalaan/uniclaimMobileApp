@@ -1,17 +1,17 @@
+import type { RootStackParamList } from "@/types/navigation";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useState } from "react";
 import {
-  View,
+  Image,
+  Pressable,
+  SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
-  SafeAreaView,
-  Image,
-  Pressable,
+  View,
 } from "react-native";
-import { Eye, EyeOff } from "lucide-react-native";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import type { RootStackParamList } from "@/types/navigation";
 
 export default function Login() {
   const navigation =
@@ -19,9 +19,11 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
 
   return (
-    <SafeAreaView className="flex-1 bg-white px-6 justify-center">
+    <SafeAreaView className="flex-1 justify-center bg-white px-6">
       {/* Logo and Header */}
       <View className="items-center mb-10">
         <Image
@@ -29,68 +31,103 @@ export default function Login() {
           resizeMode="contain"
           className="w-20 h-20 mb-3"
         />
-        <Text className="text-3xl font-bold text-black">Welcome Back</Text>
-        <Text className="text-sm text-gray-500 mt-1">
+        <Text className="text-4xl font-albert-bold text-black mb-2">
+          Welcome Back
+        </Text>
+        <Text className="text-base font-manrope-medium text-zinc-500 mt-1">
           Sign in to continue to UniClaim
         </Text>
       </View>
 
       {/* Form */}
-      <View className="space-y-5">
+      <View className="">
         {/* Email */}
         <View>
-          <Text className="text-sm font-medium text-black mb-2">Email</Text>
+          <Text className="text-base font-medium text-black mb-2 font-manrope-medium">
+            Email
+          </Text>
           <TextInput
-            placeholder="Enter your email"
-            placeholderTextColor="#888"
+            placeholder="Enter email"
+            placeholderTextColor="#747476"
+            style={{
+              fontFamily: "ManropeRegular", // applies only to input text
+              fontSize: 15,
+            }}
             value={email}
             onChangeText={setEmail}
-            className="bg-gray-100 border border-gray-300 rounded-xl px-4 h-12 text-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-300"
+            onFocus={() => setEmailFocused(true)}
+            onBlur={() => setEmailFocused(false)}
+            className={`bg-gray-100 border rounded-lg px-5 h-[3.5rem] text-base text-black font-manrope ${
+              emailFocused ? "border-teal-500" : "border-gray-300"
+            }`}
           />
         </View>
 
         {/* Password */}
         <View>
-          <Text className="text-sm font-medium text-black mb-2">Password</Text>
-          <View className="flex-row items-center bg-gray-100 border border-gray-300 rounded-xl px-4 h-12 focus:border-teal-500 focus:ring-2 focus:ring-teal-300">
+          <Text className="mt-5 text-base font-medium mb-2 font-manrope-medium">
+            Password
+          </Text>
+          <View
+            className={`flex-row items-center bg-gray-100 rounded-lg px-4 h-[3.5rem] ${
+              passwordFocused ? "border-teal-500" : "border-gray-300"
+            } border`}
+          >
             <TextInput
-              placeholder="Enter your password"
-              placeholderTextColor="#888"
+              placeholder="Enter password"
+              placeholderTextColor="#747476"
+              style={{
+                fontFamily: "ManropeRegular", // applies only to input text
+                fontSize: 15,
+              }} // red-500
               value={password}
               onChangeText={setPassword}
+              onFocus={() => setPasswordFocused(true)}
+              onBlur={() => setPasswordFocused(false)}
               secureTextEntry={!showPassword}
-              className="flex-1 text-sm"
+              className="flex-1 text-base"
             />
             <Pressable onPress={() => setShowPassword(!showPassword)}>
-              {showPassword ? (
-                <Eye style={{ width: 20, height: 20, color: "#999" }} />
-              ) : (
-                <EyeOff style={{ width: 20, height: 20, color: "#999" }} />
-              )}
+              <Ionicons
+                name={showPassword ? "eye" : "eye-off"}
+                size={20}
+                color="#000000"
+              />
             </Pressable>
           </View>
         </View>
 
-        {/* Forgot Password */}
-        <TouchableOpacity className="mt-1 self-end">
-          <Text className="text-xs text-gray-600">Forgot Password?</Text>
+        <TouchableOpacity
+          className="mt-5 self-end"
+          onPress={() => navigation.navigate("Register")} // <-- change this to your route
+        >
+          <Text className="text-sm font-manrope-medium text-teal-600 underline">
+            Forgot Password?
+          </Text>
         </TouchableOpacity>
       </View>
 
       {/* Login Button */}
-      <TouchableOpacity className="mt-10 bg-teal-500 py-3.5 rounded-xl items-center shadow-lg" onPress={() => navigation.navigate("RootBottomTabs")}>
-        <Text className="text-white text-base font-semibold">Login</Text>
+      <TouchableOpacity
+        className="bg-brand flex items-center justify-center py-4 rounded-xl mb-3 mt-6"
+        onPress={() => navigation.navigate("RootBottomTabs")}
+      >
+        <Text className="text-white text-lg font-semibold font-manrope-medium">
+          Login
+        </Text>
       </TouchableOpacity>
 
       {/* Divider */}
-      <View className="my-6" />
+      <View className="my-5" />
 
       {/* Create Account */}
       <View className="flex-row justify-center">
-        <Text className="text-sm text-gray-700">New to UniClaim? </Text>
+        <Text className="text-base text-gray-700 font-manrope-medium">
+          New to UniClaim?{" "}
+        </Text>
         <Pressable onPress={() => navigation.navigate("Register")}>
-          <Text className="text-sm text-teal-600 font-semibold underline">
-            Create an account
+          <Text className="text-base font-manrope-medium text-teal-600 font-semibold underline">
+            Register here
           </Text>
         </Pressable>
       </View>

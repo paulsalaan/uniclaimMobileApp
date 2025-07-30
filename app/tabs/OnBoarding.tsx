@@ -8,11 +8,14 @@ import {
   Dimensions,
   FlatList,
   Image,
-  SafeAreaView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 
@@ -44,21 +47,15 @@ export default function OnBoarding({ onFinish }: { onFinish: () => void }) {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const flatListRef = useRef<FlatList>(null);
-
-  //   const onNext = () => {
-  //     if (currentIndex < slides.length - 1) {
-  //       flatListRef.current?.scrollToIndex({ index: currentIndex + 1 });
-  //     } else {
-  //       navigation.replace("Index");
-  //     }
-  //   };
+  const insets = useSafeAreaInsets();
 
   const onSkip = () => {
-    navigation.replace("Index"); // <- this actually navigates
+    navigation.replace("Index");
   };
+
   return (
     <ScreenWrapper statusBarBg="#ffffff" statusBarStyle="dark-content">
-      <SafeAreaView className="flex-1">
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         {/* Skip Button */}
         <View className="w-full items-end px-6 pt-5">
           <TouchableOpacity onPress={onSkip} className="flex-row items-center">
@@ -72,39 +69,47 @@ export default function OnBoarding({ onFinish }: { onFinish: () => void }) {
         </View>
 
         {/* Slide Content */}
-        <FlatList
-          ref={flatListRef}
-          data={slides}
-          keyExtractor={(item) => item.key}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={(e) =>
-            setCurrentIndex(Math.round(e.nativeEvent.contentOffset.x / width))
-          }
-          renderItem={({ item }) => (
-            <View className="w-screen items-center justify-center px-6 mt-6">
-              <Image
-                source={item.image}
-                className="size-[20rem] mb-10"
-                resizeMode="contain"
-              />
-              <Text className="text-3xl font-albert-bold text-brand text-center mb-3">
-                {item.title}
-              </Text>
-              <Text className="text-center font-manrope-medium text-base text-gray-600">
-                {item.description}
-              </Text>
-            </View>
-          )}
-        />
+        <View style={{ flex: 1 }}>
+          <FlatList
+            ref={flatListRef}
+            data={slides}
+            keyExtractor={(item) => item.key}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={(e) =>
+              setCurrentIndex(Math.round(e.nativeEvent.contentOffset.x / width))
+            }
+            renderItem={({ item }) => (
+              <View className="w-screen items-center justify-center px-6 mt-6">
+                <Image
+                  source={item.image}
+                  className="size-[20rem] mb-10"
+                  resizeMode="contain"
+                />
+                <Text className="text-3xl font-albert-bold text-brand text-center mb-3">
+                  {item.title}
+                </Text>
+                <Text className="text-center font-manrope-medium text-base text-gray-600">
+                  {item.description}
+                </Text>
+              </View>
+            )}
+          />
+        </View>
 
-        {/* Progress Bar + Button */}
-        <View className="px-6 pb-6">
+        {/* Bottom Progress and Info */}
+        <View
+          className="px-6 pt-1"
+          style={{
+            paddingBottom: Math.max(insets.bottom, 5), // ✅ Prevent layout jump
+            backgroundColor: "#fff",
+          }}
+        >
           <Text className="text-center font-manrope text-zinc-400">
             Swipe right to proceed
           </Text>
-          <View className="flex-row justify-center gap-2 mt-4">
+          <View className="flex-row justify-center gap-2 mt-4 mb-2">
             {slides.map((_, i) => (
               <View
                 key={i}
