@@ -48,7 +48,7 @@ export default function Index({ onContinue }: { onContinue: () => void }) {
         <View className="w-full">
           <TouchableOpacity
             className="bg-brand flex items-center justify-center py-4 rounded-xl mb-3"
-            onPress={() => navigation.navigate("RootBottomTabs")}
+            onPress={() => navigation.navigate("Login")}
           >
             <Text className="font-manrope-medium text-white text-lg">
               Login
