@@ -159,7 +159,7 @@ export default function Register() {
       </View>
 
       {/* Register Button */}
-      <TouchableOpacity className="bg-brand flex items-center justify-center py-4 rounded-xl mt-6">
+      <TouchableOpacity className="bg-brand flex items-center justify-center py-4 rounded-xl mt-6" onPress={() => navigation.navigate("Login")}>
         <Text className="text-white text-lg font-semibold font-manrope-medium">
           Register
         </Text>
