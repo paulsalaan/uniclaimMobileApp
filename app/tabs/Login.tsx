@@ -4,7 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import {
-  Image,
   Pressable,
   SafeAreaView,
   Text,
@@ -16,31 +15,78 @@ import {
 export default function Login() {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
 
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [generalError, setGeneralError] = useState("");
+
+  const validateEmail = (value: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+  const handleLogin = () => {
+    let valid = true;
+    setEmailError("");
+    setPasswordError("");
+    setGeneralError("");
+
+    if (!email.trim()) {
+      setEmailError("Email is required.");
+      valid = false;
+    } else if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      valid = false;
+    }
+
+    if (!password) {
+      setPasswordError("Password is required.");
+      valid = false;
+    } else if (password.length < 8) {
+      setPasswordError("Password must be at least 8 characters.");
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    // simulated credentials
+    const dummyEmail = "test@gmail.com";
+    const dummyPassword = "password";
+
+    if (email !== dummyEmail || password !== dummyPassword) {
+      setGeneralError("Incorrect email or password.");
+      return;
+    }
+
+    navigation.navigate("RootBottomTabs");
+  };
+
   return (
     <SafeAreaView className="flex-1 justify-center bg-white px-6">
-      {/* Logo and Header */}
-      <View className="items-center mb-10">
-        <Image
-          source={require("../../assets/images/uniclaimlogo.png")}
-          resizeMode="contain"
-          className="w-20 h-20 mb-3"
-        />
-        <Text className="text-4xl font-albert-bold text-black mb-2">
+      {/* Header */}
+      <View className="mb-10">
+        <Text className="text-4xl font-manrope-bold text-brand mb-2">
           Welcome Back
         </Text>
-        <Text className="text-base font-manrope-medium text-zinc-500 mt-1">
-          Sign in to continue to UniClaim
+        <Text className="text-base font-manrope-medium text-black mt-1">
+          Hi, Welcome back, you’ve been missed
         </Text>
       </View>
 
+      {/* General Error */}
+      {generalError !== "" && (
+        <Text className="text-red-500 font-manrope-medium mb-4 text-center">
+          {generalError}
+        </Text>
+      )}
+
       {/* Form */}
-      <View className="">
+      <View>
         {/* Email */}
         <View>
           <Text className="text-base font-medium text-black mb-2 font-manrope-medium">
@@ -50,42 +96,61 @@ export default function Login() {
             placeholder="Enter email"
             placeholderTextColor="#747476"
             style={{
-              fontFamily: "ManropeRegular", // applies only to input text
+              fontFamily: "ManropeRegular",
               fontSize: 15,
             }}
             value={email}
             onChangeText={setEmail}
-            onFocus={() => setEmailFocused(true)}
+            onFocus={() => {
+              setEmailFocused(true);
+              setEmailError("");
+            }}
             onBlur={() => setEmailFocused(false)}
-            className={`bg-gray-100 border rounded-lg px-5 h-[3.5rem] text-base text-black font-manrope ${
-              emailFocused ? "border-teal-500" : "border-gray-300"
+            className={`bg-gray-100 rounded-lg px-5 h-[3.5rem] text-base text-black font-manrope border ${
+              emailError
+                ? "border-red-500"
+                : emailFocused
+                  ? "border-teal-500"
+                  : "border-gray-300"
             }`}
           />
+          {emailError !== "" && (
+            <Text className="text-red-500 text-sm mt-2 font-manrope-medium">
+              {emailError}
+            </Text>
+          )}
         </View>
 
         {/* Password */}
-        <View>
-          <Text className="mt-5 text-base font-medium mb-2 font-manrope-medium">
+        <View className="mt-5">
+          <Text className="text-base font-medium mb-2 font-manrope-medium">
             Password
           </Text>
           <View
-            className={`flex-row items-center bg-gray-100 rounded-lg px-4 h-[3.5rem] ${
-              passwordFocused ? "border-teal-500" : "border-gray-300"
-            } border`}
+            className={`flex-row items-center bg-gray-100 rounded-lg px-4 h-[3.5rem] border ${
+              passwordError
+                ? "border-red-500"
+                : passwordFocused
+                  ? "border-teal-500"
+                  : "border-gray-300"
+            }`}
           >
             <TextInput
               placeholder="Enter password"
               placeholderTextColor="#747476"
               style={{
-                fontFamily: "ManropeRegular", // applies only to input text
+                fontFamily: "ManropeRegular",
                 fontSize: 15,
-              }} // red-500
+              }}
               value={password}
               onChangeText={setPassword}
-              onFocus={() => setPasswordFocused(true)}
+              onFocus={() => {
+                setPasswordFocused(true);
+                setPasswordError("");
+              }}
               onBlur={() => setPasswordFocused(false)}
               secureTextEntry={!showPassword}
-              className="flex-1 text-base"
+              className="flex-1 text-base text-black"
             />
             <Pressable onPress={() => setShowPassword(!showPassword)}>
               <Ionicons
@@ -95,11 +160,17 @@ export default function Login() {
               />
             </Pressable>
           </View>
+          {passwordError !== "" && (
+            <Text className="text-red-500 text-sm mt-2 font-manrope-medium">
+              {passwordError}
+            </Text>
+          )}
         </View>
 
+        {/* Forgot Password */}
         <TouchableOpacity
           className="mt-5 self-end"
-          onPress={() => navigation.navigate("Register")} // <-- change this to your route
+          onPress={() => navigation.navigate("Register")}
         >
           <Text className="text-sm font-manrope-medium text-teal-600 underline">
             Forgot Password?
@@ -110,7 +181,7 @@ export default function Login() {
       {/* Login Button */}
       <TouchableOpacity
         className="bg-brand flex items-center justify-center py-4 rounded-xl mb-3 mt-6"
-        onPress={() => navigation.navigate("RootBottomTabs")}
+        onPress={handleLogin}
       >
         <Text className="text-white text-lg font-semibold font-manrope-medium">
           Login
@@ -120,7 +191,7 @@ export default function Login() {
       {/* Divider */}
       <View className="my-5" />
 
-      {/* Create Account */}
+      {/* Register Link */}
       <View className="flex-row justify-center">
         <Text className="text-base text-gray-700 font-manrope-medium">
           New to UniClaim?{" "}
