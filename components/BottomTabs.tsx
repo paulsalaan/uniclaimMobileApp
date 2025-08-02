@@ -1,9 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
-
 import type { JSX } from "react";
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 // Screens
 import HomeScreen from "../app/tabs/Home";
@@ -22,6 +24,7 @@ type TabConfig = {
 
 export default function CustomTabs() {
   const [currentTab, setCurrentTab] = useState("MyTickets");
+  const insets = useSafeAreaInsets(); // ✅ Get safe area insets
   const TAB_BAR_HEIGHT = 50;
 
   const tabs: TabConfig[] = [
@@ -66,21 +69,23 @@ export default function CustomTabs() {
     tabs.find((tab) => tab.key === currentTab)?.component ?? HomeScreen;
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      {/* Main Screen */}
+    <SafeAreaView className="flex-1 bg-white" edges={["top", "left", "right"]}>
+      {/* Main Content */}
       <View className="flex-1">
         <CurrentScreen />
       </View>
 
       {/* Bottom Tabs */}
       <View
-        className="bg-white py-4"
+        className="bg-white"
         style={{
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: -3 }, // Top shadow
-          shadowOpacity: 0.08,
+          paddingTop: 15,
+          paddingBottom: Math.max(insets.bottom, 3),
+          shadowColor: "#00000",
+          shadowOffset: { width: 0, height: -6 },
+          shadowOpacity: 0.32,
           shadowRadius: 6,
-          elevation: 100,
+          elevation: 20,
         }}
       >
         <View
@@ -99,7 +104,7 @@ export default function CustomTabs() {
               >
                 <Ionicons
                   name={isActive ? tab.iconFilled : tab.iconOutline}
-                  size={isAddTab ? 28 : 22} // 👈 Enlarge only "CreateReport"
+                  size={isAddTab ? 28 : 22}
                   color={isActive ? "#00B894" : "#000"}
                 />
                 <Text

@@ -77,7 +77,7 @@ export default function Register() {
     }`;
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white py-10">
       <KeyboardAwareScrollView
         contentContainerStyle={{
           flexGrow: 1,
@@ -285,7 +285,7 @@ export default function Register() {
             Already have an account?{" "}
           </Text>
           <Pressable onPress={() => navigation.navigate("Login")}>
-            <Text className="text-base font-manrope-medium text-teal-600 underline">
+            <Text className="text-base font-manrope-medium text-brand underline">
               Login Here
             </Text>
           </Pressable>

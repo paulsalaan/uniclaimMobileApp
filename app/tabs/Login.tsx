@@ -197,7 +197,7 @@ export default function Login() {
           New to UniClaim?{" "}
         </Text>
         <Pressable onPress={() => navigation.navigate("Register")}>
-          <Text className="text-base font-manrope-medium text-teal-600 font-semibold underline">
+          <Text className="text-base font-manrope-medium text-brand font-semibold underline">
             Register here
           </Text>
         </Pressable>
