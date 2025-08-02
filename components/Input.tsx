@@ -152,7 +152,7 @@ export default function SearchWithToggle() {
         </View>
 
         <TouchableOpacity className="flex-1 bg-teal-500 rounded-lg w-full h-[3.5rem] items-center justify-center px-3">
-          <Text className="text-white font-semibold text-base font-manrope-semibold">
+          <Text className="text-white font-semibold text-sm font-manrope-semibold">
             Search
           </Text>
         </TouchableOpacity>
