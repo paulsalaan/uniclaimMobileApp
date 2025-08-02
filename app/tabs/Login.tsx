@@ -172,7 +172,7 @@ export default function Login() {
           className="mt-5 self-end"
           onPress={() => navigation.navigate("ForgotPassword")}
         >
-          <Text className="text-sm font-manrope-medium text-teal-600 underline">
+          <Text className="text-base font-manrope-medium text-brand underline">
             Forgot Password?
           </Text>
         </TouchableOpacity>

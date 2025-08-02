@@ -77,7 +77,7 @@ export default function Register() {
     }`;
 
   return (
-    <SafeAreaView className="flex-1 bg-white py-10">
+    <SafeAreaView className="flex-1 bg-white">
       <KeyboardAwareScrollView
         contentContainerStyle={{
           flexGrow: 1,
