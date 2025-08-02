@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 
 // screens
+import ForgotPassword from "@/app/tabs/ForgotPassword";
 import Home from "../app/tabs/Home";
 import Index from "../app/tabs/index";
 import Login from "../app/tabs/Login";
@@ -68,6 +69,7 @@ export default function Navigation({
       <Stack.Screen name="Report" component={withScreenWrapper(Report)} />
       <Stack.Screen name="Profile" component={withScreenWrapper(Profile)} />
       <Stack.Screen name="Message" component={withScreenWrapper(Message)} />
+      <Stack.Screen name="ForgotPassword" component={withScreenWrapper(ForgotPassword)} />
     </Stack.Navigator>
   );
 }

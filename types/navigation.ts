@@ -4,6 +4,7 @@ export type RootStackParamList = {
   App: undefined;
   Login: undefined;
   Register: undefined;
+  ForgotPassword: undefined;
 
   // test-only
   Home: undefined;
