@@ -95,7 +95,7 @@ export default function Home() {
 
   return (
     <Layout>
-      <View className="flex-1">
+      <View className="flex-1 px-4">
         <SearchWithToggle
           query={query}
           setQuery={setQuery}
@@ -146,6 +146,13 @@ export default function Home() {
           renderItem={({ item }) => (
             <PostCard post={item} descriptionSearch={descriptionSearch} />
           )}
+          ListEmptyComponent={
+            <View className="items-center justify-center mt-10">
+              <Text className="text-gray-500 text-base font-manrope-medium">
+                No posts/report found.
+              </Text>
+            </View>
+          }
           showsVerticalScrollIndicator={false}
           className="mt-4"
         />

@@ -1,17 +1,20 @@
-import type { RootStackParamList } from "@/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import {
+  Dimensions,
   Pressable,
-  SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { SafeAreaView } from "react-native-safe-area-context";
+import type { RootStackParamList } from "../../types/type";
+
+const screenHeight = Dimensions.get("window").height;
 
 export default function Register() {
   const navigation =
@@ -53,7 +56,6 @@ export default function Register() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Proceed with registration logic
       console.log("Form is valid. Submitting...");
     }
   };
@@ -78,26 +80,28 @@ export default function Register() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <KeyboardAwareScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingHorizontal: 24,
-          justifyContent: "center",
-        }}
-        enableOnAndroid={true}
-        keyboardShouldPersistTaps="handled"
-      >
-        <View className="mb-7 mt-7">
-          <Text className="text-4xl font-albert-bold text-brand mb-2">
-            Create Account
-          </Text>
-          <Text className="text-base font-manrope-medium text-black">
-            Start your journey here at UniClaim
-          </Text>
-        </View>
+      <View className="flex-1">
+        <KeyboardAwareScrollView
+          contentContainerStyle={{
+            minHeight: screenHeight,
+            paddingHorizontal: 24,
+            paddingTop: 24,
+            paddingBottom: 36,
+          }}
+          enableOnAndroid
+          keyboardShouldPersistTaps="handled"
+          extraHeight={100}
+          showsVerticalScrollIndicator={false}
+        >
+          <View className="mb-7">
+            <Text className="text-4xl font-albert-bold text-brand mb-2">
+              Create Account
+            </Text>
+            <Text className="text-base font-manrope-medium text-black">
+              Start your journey here at UniClaim
+            </Text>
+          </View>
 
-        {/* Form Fields */}
-        <View>
           {/* First Name */}
           <View className="mb-4">
             <Text className="font-manrope-medium text-black mb-2">
@@ -267,30 +271,30 @@ export default function Register() {
               </Text>
             )}
           </View>
-        </View>
 
-        {/* Register Button */}
-        <TouchableOpacity
-          className="bg-brand flex items-center justify-center py-4 rounded-xl mt-6"
-          onPress={handleRegister}
-        >
-          <Text className="text-white text-lg font-semibold font-manrope-medium">
-            Register
-          </Text>
-        </TouchableOpacity>
-
-        {/* Already have an account */}
-        <View className="flex-row justify-center mt-6 mb-8">
-          <Text className="text-base text-gray-700 font-manrope-medium">
-            Already have an account?{" "}
-          </Text>
-          <Pressable onPress={() => navigation.navigate("Login")}>
-            <Text className="text-base font-manrope-medium text-brand underline">
-              Login Here
+          {/* Register Button */}
+          <TouchableOpacity
+            className="bg-brand flex items-center justify-center py-4 rounded-xl mt-6"
+            onPress={handleRegister}
+          >
+            <Text className="text-white text-lg font-semibold font-manrope-medium">
+              Register
             </Text>
-          </Pressable>
-        </View>
-      </KeyboardAwareScrollView>
+          </TouchableOpacity>
+
+          {/* Already have an account */}
+          <View className="flex-row justify-center mt-6 mb-8">
+            <Text className="text-base text-gray-700 font-manrope-medium">
+              Already have an account?{" "}
+            </Text>
+            <Pressable onPress={() => navigation.navigate("Login")}>
+              <Text className="text-base font-manrope-medium text-brand underline">
+                Login Here
+              </Text>
+            </Pressable>
+          </View>
+        </KeyboardAwareScrollView>
+      </View>
     </SafeAreaView>
   );
 }

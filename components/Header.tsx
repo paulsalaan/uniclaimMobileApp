@@ -3,7 +3,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function Header() {
   return (
-    <View className="flex-row items-center justify-between my-4">
+    <View className="flex-row items-center justify-between my-4 px-4">
       {/* Left: Logo + Title */}
       <View className="flex-row items-center">
         <Image
