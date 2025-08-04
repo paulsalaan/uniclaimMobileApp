@@ -63,6 +63,23 @@ export default function PostDetailsScreen() {
           </Text>
         </TouchableOpacity>
 
+        {post.type === "lost" ? (
+          <View className="flex-row mb-5 bg-blue-50 rounded-md py-3 w-full items-center justify-center px-3">
+            <MaterialIcons name="info-outline" size={15} color="blue" />
+            <Text className="text-sm text-center w-[20rem] text-blue-700 font-inter ml-2">
+              All lost items must be surrendered to the OSA Building or to the
+              Campus Security
+            </Text>
+          </View>
+        ) : (
+          <View className="flex-row mb-5 bg-blue-50 rounded-md py-3 w-full items-center justify-center px-3">
+            <MaterialIcons name="info-outline" size={15} color="blue" />
+            <Text className="text-sm text-center w-[20rem] text-blue-700 font-inter ml-2">
+              All found items can be claimed to the OSA office.
+            </Text>
+          </View>
+        )}
+
         <View className="flex-row items-center gap-2">
           <MaterialIcons name="info-outline" size={20} color="black" />
           <Text className="font-manrope-medium">Item Details</Text>

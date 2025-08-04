@@ -110,12 +110,12 @@ export default function Home() {
         <View className="flex-row mt-5 gap-2">
           <TouchableOpacity
             onPress={() => setActiveButton("lost")}
-            className={`flex-1 h-[3rem] rounded-md items-center justify-center ${
+            className={`flex-1 h-[3.3rem] rounded-md items-center justify-center ${
               activeButton === "lost" ? "bg-navyblue" : "bg-zinc-200"
             }`}
           >
             <Text
-              className={`font-semibold text-base font-manrope-medium ${
+              className={`font-semibold text-base font-manrope-semibold ${
                 activeButton === "lost" ? "text-white" : "text-black"
               }`}
             >
@@ -125,12 +125,12 @@ export default function Home() {
 
           <TouchableOpacity
             onPress={() => setActiveButton("found")}
-            className={`flex-1 h-[3rem] rounded-md items-center justify-center ${
+            className={`flex-1 h-[3.3rem] rounded-md items-center justify-center ${
               activeButton === "found" ? "bg-navyblue" : "bg-zinc-200"
             }`}
           >
             <Text
-              className={`font-semibold text-base font-manrope-medium ${
+              className={`font-semibold text-base font-manrope-semibold ${
                 activeButton === "found" ? "text-white" : "text-black"
               }`}
             >

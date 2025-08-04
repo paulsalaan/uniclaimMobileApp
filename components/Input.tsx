@@ -152,7 +152,7 @@ export default function SearchWithToggle({
     <View className="w-full">
       {/* Search Row */}
       <View className="flex-row items-center gap-2">
-        <View className="flex-[8] bg-gray-100 border border-zinc-300 rounded-md px-2 h-[3rem] flex-row items-center">
+        <View className="flex-[8] bg-gray-100 border border-zinc-300 rounded-md px-2 h-[3.3rem] flex-row items-center">
           <TextInput
             className="flex-1 text-gray-800 text-[13px] ml-1 font-manrope"
             placeholder="Search an item"
@@ -162,13 +162,13 @@ export default function SearchWithToggle({
           />
         </View>
         {/* Search Icon Button */}
-        <TouchableOpacity className="flex-1 bg-teal-500 rounded-md w-full h-[3rem] items-center justify-center px-3">
+        <TouchableOpacity className="flex-1 bg-teal-500 rounded-md w-full h-[3.3rem] items-center justify-center px-3">
           <Ionicons name="search-outline" size={23} color="#fff" />
         </TouchableOpacity>
 
         {/* Filter Toggle */}
         <TouchableOpacity
-          className="bg-slate-900 rounded-md px-3 h-[3rem] items-center justify-center"
+          className="bg-slate-900 rounded-md px-3 h-[3.3rem] items-center justify-center"
           onPress={toggleFilter}
         >
           <Animated.View style={{ transform: [{ rotate: rotation }] }}>
@@ -179,7 +179,7 @@ export default function SearchWithToggle({
         {/* X (Clear) Icon */}
         {(query || categorySearch || locationSearch || descriptionSearch) && (
           <TouchableOpacity
-            className="bg-red-500 rounded-md px-3 h-[3rem] items-center justify-center"
+            className="bg-red-500 rounded-md px-3 h-[3.3rem] items-center justify-center"
             onPress={clearAllFilters}
           >
             <Ionicons name="close-outline" size={23} color="#fff" />
@@ -203,7 +203,7 @@ export default function SearchWithToggle({
               Description
             </Text>
             <TextInput
-              className="bg-white/30 border font-manrope border-gray-300 rounded-md h-[3rem] px-3 mb-3 text-[13px] text-zinc-800 backdrop-blur-md tracking-tight"
+              className="bg-white/30 border font-manrope border-gray-300 rounded-md h-[3.3rem] px-3 mb-3 text-[13px] text-zinc-800 backdrop-blur-md tracking-tight"
               placeholder="Search in description"
               value={descriptionSearch}
               onChangeText={setDescriptionSearch}
