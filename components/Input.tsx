@@ -161,7 +161,6 @@ export default function SearchWithToggle({
             placeholderTextColor="#6B7280"
           />
         </View>
-
         {/* Search Icon Button */}
         <TouchableOpacity className="flex-1 bg-teal-500 rounded-md w-full h-[3rem] items-center justify-center px-3">
           <Ionicons name="search-outline" size={23} color="#fff" />
