@@ -105,12 +105,12 @@ export default function CustomTabs() {
                 <Ionicons
                   name={isActive ? tab.iconFilled : tab.iconOutline}
                   size={isAddTab ? 28 : 22}
-                  color={isActive ? "#00B894" : "#000"}
+                  color={isActive ? "#0A193A" : "#000"}
                 />
                 <Text
                   className={`text-[9px] font-manrope ${
                     isAddTab ? "mt-1" : "mt-2"
-                  } ${isActive ? "text-brand" : "text-black"}`}
+                  } ${isActive ? "text-navyblue" : "text-black"}`}
                 >
                   {tab.label}
                 </Text>

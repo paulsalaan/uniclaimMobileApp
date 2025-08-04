@@ -1,18 +1,116 @@
-import Layout from "@/layout/HomeLayout";
 import React, { useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import SearchWithToggle from "../../components/Input";
+import PostCard from "../../components/PostCard";
+import Layout from "../../layout/HomeLayout";
+import type { Post } from "../../types/type";
+
+// ✅ Your dummy data (KEEP THIS)
+const posts: Post[] = [
+  {
+    id: "1",
+    type: "lost",
+    category: "Personal Belongings",
+    image: require("../../assets/images/squarepic.jpg"),
+    title: "Lost Black Wallet",
+    location: "Entrance Hallway",
+    datetime: "August 2, 2025 - 3:45 PM",
+    description:
+      "A black leather wallet with multiple cards and cash inside. Has a visible scratch at the front.",
+    postedBy: "Juan Dela Cruz",
+  },
+  {
+    id: "2",
+    type: "lost",
+    category: "Gadgets",
+    image: require("../../assets/images/squarepic.jpg"),
+    title: "iPhone 12 Pro",
+    location: "Admin Building",
+    datetime: "August 2, 2025 - 1:00 PM",
+    description: "Silver iPhone 12 Pro with blue case. Has sticker of Batman.",
+    postedBy: "Maria Santos",
+  },
+  {
+    id: "3",
+    type: "found",
+    category: "Student Essentials",
+    status: "turnover",
+    image: require("../../assets/images/squarepic.jpg"),
+    title: "USTP ID Lace",
+    location: "Library",
+    datetime: "August 1, 2025 - 10:30 AM",
+    description: "Blue ID lace labeled USTP with no ID.",
+    postedBy: "Mark Reyes",
+  },
+  {
+    id: "4",
+    type: "found",
+    category: "Student Essentials",
+    status: "keep",
+    image: require("../../assets/images/squarepic.jpg"),
+    title: "USTP ID Lace",
+    location: "Library",
+    datetime: "August 1, 2025 - 10:30 AM",
+    description: "Blue ID lace labeled USTP with ID.",
+    postedBy: "Mark Reyes",
+  },
+];
 
 export default function Home() {
   const [activeButton, setActiveButton] = useState<"lost" | "found">("lost");
+  const [query, setQuery] = useState("");
+  const [categorySearch, setCategorySearch] = useState("");
+  const [locationSearch, setLocationSearch] = useState("");
+  const [descriptionSearch, setDescriptionSearch] = useState("");
+
+  const filteredPosts = posts.filter((post) => {
+    const queryWords = query.toLowerCase().trim().split(/\s+/);
+
+    const titleMatch = queryWords.every((word) =>
+      post.title.toLowerCase().includes(word)
+    );
+
+    const descriptionMatch = descriptionSearch
+      ? post.description
+          .toLowerCase()
+          .includes(descriptionSearch.toLowerCase().trim())
+      : true;
+
+    const categoryMatch = categorySearch
+      ? post.category === categorySearch
+      : true;
+
+    const locationMatch = locationSearch
+      ? post.location === locationSearch
+      : true;
+
+    return (
+      post.type === activeButton &&
+      titleMatch &&
+      categoryMatch &&
+      locationMatch &&
+      descriptionMatch
+    );
+  });
 
   return (
     <Layout>
       <View className="flex-1">
-        {/* Lost & Found Buttons */}
+        <SearchWithToggle
+          query={query}
+          setQuery={setQuery}
+          categorySearch={categorySearch}
+          setCategorySearch={setCategorySearch}
+          locationSearch={locationSearch}
+          setLocationSearch={setLocationSearch}
+          descriptionSearch={descriptionSearch}
+          setDescriptionSearch={setDescriptionSearch}
+        />
+
         <View className="flex-row mt-5 gap-2">
           <TouchableOpacity
             onPress={() => setActiveButton("lost")}
-            className={`flex-1 h-14 rounded-lg items-center justify-center ${
+            className={`flex-1 h-[3rem] rounded-md items-center justify-center ${
               activeButton === "lost" ? "bg-navyblue" : "bg-zinc-200"
             }`}
           >
@@ -27,7 +125,7 @@ export default function Home() {
 
           <TouchableOpacity
             onPress={() => setActiveButton("found")}
-            className={`flex-1 h-14 rounded-lg items-center justify-center ${
+            className={`flex-1 h-[3rem] rounded-md items-center justify-center ${
               activeButton === "found" ? "bg-navyblue" : "bg-zinc-200"
             }`}
           >
@@ -41,26 +139,16 @@ export default function Home() {
           </TouchableOpacity>
         </View>
 
-        {/* dummy-posts only */}
-        <ScrollView
-          className="mt-5"
-          contentContainerStyle={{ paddingBottom: 15 }}
+        {/* 📄 Filtered Post List */}
+        <FlatList
+          data={filteredPosts}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <PostCard post={item} descriptionSearch={descriptionSearch} />
+          )}
           showsVerticalScrollIndicator={false}
-        >
-          <View className="flex-col gap-4">
-            {[...Array(10)].map((_, index) => (
-              <View
-                key={index}
-                className="bg-gray-100 rounded-lg w-full h-[25rem] items-center justify-center"
-              >
-                <Text className="text-gray-700 font-manrope">
-                  {activeButton === "lost" ? "Lost Item" : "Found Item"} #
-                  {index + 1}
-                </Text>
-              </View>
-            ))}
-          </View>
-        </ScrollView>
+          className="mt-4"
+        />
       </View>
     </Layout>
   );

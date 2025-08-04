@@ -1,4 +1,4 @@
-import type { RootStackParamList } from "@/types/navigation";
+import type { RootStackParamList } from "@/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";

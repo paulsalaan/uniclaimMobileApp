@@ -1,6 +1,6 @@
 // SplashScreen.tsx
 import React, { useEffect } from "react";
-import { Image, Text } from "react-native";
+import { Image } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 export default function SplashScreen({
@@ -24,11 +24,8 @@ export default function SplashScreen({
     >
       <Image
         source={require("../assets/images/uniclaimlogo.png")}
-        className="size-30 mb-5"
+        className="size-35"
       />
-      <Text className="text-4xl font-albert-bold text-brand">
-        Uni<Text className="text-navyblue">Claim</Text>
-      </Text>
     </Animated.View>
   );
 }

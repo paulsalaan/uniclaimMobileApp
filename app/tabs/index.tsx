@@ -1,10 +1,10 @@
 import ScreenWrapper from "@/components/ScreenWrapper";
-import type { RootStackParamList } from "@/types/navigation";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import type { RootStackParamList } from "../../types/type";
 
 // test-only
 

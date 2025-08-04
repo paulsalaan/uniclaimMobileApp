@@ -1,6 +1,6 @@
-import type { RootStackParamList } from "@/types/navigation";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
+import type { RootStackParamList } from "../types/type";
 
 // screens
 import ForgotPassword from "@/app/tabs/ForgotPassword";
@@ -9,6 +9,7 @@ import Index from "../app/tabs/index";
 import Login from "../app/tabs/Login";
 import Message from "../app/tabs/Message";
 import OnBoarding from "../app/tabs/OnBoarding";
+import PostDetailsScreen from "../app/tabs/PostDetails";
 import Profile from "../app/tabs/Profile";
 import Register from "../app/tabs/Register";
 import Report from "../app/tabs/Report";
@@ -69,7 +70,14 @@ export default function Navigation({
       <Stack.Screen name="Report" component={withScreenWrapper(Report)} />
       <Stack.Screen name="Profile" component={withScreenWrapper(Profile)} />
       <Stack.Screen name="Message" component={withScreenWrapper(Message)} />
-      <Stack.Screen name="ForgotPassword" component={withScreenWrapper(ForgotPassword)} />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={withScreenWrapper(ForgotPassword)}
+      />
+      <Stack.Screen
+        name="PostDetailsScreen"
+        component={withScreenWrapper(PostDetailsScreen)}
+      />
     </Stack.Navigator>
   );
 }

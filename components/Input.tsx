@@ -1,10 +1,4 @@
-import {
-  ChevronDown,
-  ChevronUp,
-  ListFilter,
-  Search,
-  X,
-} from "lucide-react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { useRef, useState } from "react";
 import {
   Animated,
@@ -32,14 +26,30 @@ const locations = [
   "Gym Lobby",
 ];
 
-export default function SearchWithToggle() {
-  const [query, setQuery] = useState("");
+type Props = {
+  query: string;
+  setQuery: (val: string) => void;
+  categorySearch: string;
+  setCategorySearch: (val: string) => void;
+  locationSearch: string;
+  setLocationSearch: (val: string) => void;
+  descriptionSearch: string;
+  setDescriptionSearch: (val: string) => void;
+};
+
+export default function SearchWithToggle({
+  query,
+  setQuery,
+  categorySearch,
+  setCategorySearch,
+  locationSearch,
+  setLocationSearch,
+  descriptionSearch,
+  setDescriptionSearch,
+}: Props) {
   const [filterVisible, setFilterVisible] = useState(false);
   const [categoryExpanded, setCategoryExpanded] = useState(false);
   const [locationExpanded, setLocationExpanded] = useState(false);
-  const [categorySearch, setCategorySearch] = useState("");
-  const [locationSearch, setLocationSearch] = useState("");
-
   const rotateAnim = useRef(new Animated.Value(0)).current;
 
   const toggleFilter = () => {
@@ -52,15 +62,25 @@ export default function SearchWithToggle() {
     setFilterVisible(!filterVisible);
   };
 
-  const toggleWithLayout = (toggleFn: () => void) => {
+  const toggleWithLayout = (fn: () => void) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    toggleFn();
+    fn();
   };
 
   const rotation = rotateAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ["0deg", "180deg"],
   });
+
+  const clearAllFilters = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setQuery("");
+    setCategorySearch("");
+    setLocationSearch("");
+    setDescriptionSearch("");
+    setCategoryExpanded(false);
+    setLocationExpanded(false);
+  };
 
   const InputDropdown = ({
     label,
@@ -81,33 +101,25 @@ export default function SearchWithToggle() {
       <Text className="text-sm font-manrope-semibold text-gray-700 mb-3">
         {label}
       </Text>
-
-      <View className="relative">
-        <TouchableOpacity
-          onPress={() => toggleWithLayout(onToggle)}
-          className="flex-row items-center bg-white/30 border border-gray-300 rounded-md px-3 h-[3.5rem] backdrop-blur-md"
-          activeOpacity={0.8}
-        >
-          <Text className="flex-1 text-base font-manrope text-gray-800 tracking-tight">
-            {value || `Select ${label.toLowerCase()}`}
-          </Text>
-          {value && (
-            <Pressable
-              className="mr-2"
-              onPress={() => onSelect("")}
-              hitSlop={30}
-            >
-              <X className="size-13 mr-3" />
-            </Pressable>
-          )}
-          {expanded ? (
-            <ChevronUp size={20} color="#4B5563" />
-          ) : (
-            <ChevronDown size={20} color="#4B5563" />
-          )}
-        </TouchableOpacity>
-      </View>
-
+      <TouchableOpacity
+        onPress={() => toggleWithLayout(onToggle)}
+        className="flex-row items-center bg-white/30 border border-gray-300 rounded-md px-3 h-[3rem] backdrop-blur-md"
+        activeOpacity={0.8}
+      >
+        <Text className="flex-1 text-base font-manrope text-gray-800 tracking-tight">
+          {value || `Select ${label.toLowerCase()}`}
+        </Text>
+        {value && (
+          <Pressable onPress={() => onSelect("")} hitSlop={30}>
+            <Ionicons name="close-outline" size={20} color="#4B5563" />
+          </Pressable>
+        )}
+        <Ionicons
+          name={expanded ? "chevron-up-outline" : "chevron-down-outline"}
+          size={20}
+          color="#4B5563"
+        />
+      </TouchableOpacity>
       {expanded && (
         <View
           className="bg-white/90 border border-gray-200 rounded-md mt-1"
@@ -140,8 +152,7 @@ export default function SearchWithToggle() {
     <View className="w-full">
       {/* Search Row */}
       <View className="flex-row items-center gap-2">
-        <View className="flex-[4] bg-gray-100 border border-zinc-300 rounded-lg px-3 h-[3.5rem] flex-row items-center">
-          <Search size={16} className="text-gray-500 mr-1" />
+        <View className="flex-[8] bg-gray-100 border border-zinc-300 rounded-md px-2 h-[3rem] flex-row items-center">
           <TextInput
             className="flex-1 text-gray-800 text-[13px] ml-1 font-manrope"
             placeholder="Search an item"
@@ -151,20 +162,30 @@ export default function SearchWithToggle() {
           />
         </View>
 
-        <TouchableOpacity className="flex-1 bg-teal-500 rounded-lg w-full h-[3.5rem] items-center justify-center px-3">
-          <Text className="text-white font-semibold text-sm font-manrope-semibold">
-            Search
-          </Text>
+        {/* Search Icon Button */}
+        <TouchableOpacity className="flex-1 bg-teal-500 rounded-md w-full h-[3rem] items-center justify-center px-3">
+          <Ionicons name="search-outline" size={23} color="#fff" />
         </TouchableOpacity>
 
+        {/* Filter Toggle */}
         <TouchableOpacity
-          className="bg-slate-900 rounded-lg size-[3.5rem] items-center justify-center"
+          className="bg-slate-900 rounded-md px-3 h-[3rem] items-center justify-center"
           onPress={toggleFilter}
         >
           <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-            <ListFilter size={24} color="#fff" />
+            <Ionicons name="filter-outline" size={23} color="#fff" />
           </Animated.View>
         </TouchableOpacity>
+
+        {/* X (Clear) Icon */}
+        {(query || categorySearch || locationSearch || descriptionSearch) && (
+          <TouchableOpacity
+            className="bg-red-500 rounded-md px-3 h-[3rem] items-center justify-center"
+            onPress={clearAllFilters}
+          >
+            <Ionicons name="close-outline" size={23} color="#fff" />
+          </TouchableOpacity>
+        )}
       </View>
 
       {/* Filter Section */}
@@ -178,18 +199,18 @@ export default function SearchWithToggle() {
             options={categories}
             onSelect={setCategorySearch}
           />
-
           <View>
             <Text className="text-sm font-manrope-semibold text-gray-700 mb-1 mt-3">
               Description
             </Text>
             <TextInput
-              className="bg-white/30 border font-manrope border-gray-300 rounded-md h-[3.5rem] px-3 mb-3 text-[13px] text-zinc-800 backdrop-blur-md tracking-tight"
-              placeholder="Enter description"
+              className="bg-white/30 border font-manrope border-gray-300 rounded-md h-[3rem] px-3 mb-3 text-[13px] text-zinc-800 backdrop-blur-md tracking-tight"
+              placeholder="Search in description"
+              value={descriptionSearch}
+              onChangeText={setDescriptionSearch}
               placeholderTextColor="#9CA3AF"
             />
           </View>
-
           <InputDropdown
             label="Last Location"
             value={locationSearch}
